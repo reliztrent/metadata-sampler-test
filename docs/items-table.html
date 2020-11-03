@@ -1,0 +1,114 @@
+---
+layout: none
+---
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+
+<style>
+    th.grouping1 th.grouping2 {
+        text-align:left;
+    }
+    .highlight {
+        background-color: rgba(161, 198, 230,0.25) !important;
+    }
+
+    tr:hover {
+        background-color: rgba(161, 198, 230, 0.4) !important;
+    }
+    .dataTables_processing {
+        box-shadow: 1px 1px 7px 4px #ccc;
+        background-color: #248ec2;
+        color:white;
+    }
+    .aboutfield-md, .aboutfield-md .inputwidth {
+        width:140px;
+        max-width: 140px;
+        word-wrap:break-word;
+    }
+    .aboutfield-sm, .aboutfield-sm .inputwidth {
+        width:100px;
+        max-width: 100px;
+        word-wrap:break-word;
+    }
+    tfoot .aboutfield-md, tfoot .aboutfield-md .inputwidth {
+        width:158px;
+        max-width: 158px;
+    }
+    tfoot .aboutfield-sm, tfoot .aboutfield-sm .inputwidth {
+        width:118px;
+        max-width: 118px;
+    }
+</style>
+</head>
+<body>
+    <div class='container-fluid'>
+        <div class="row justify-content-md-center">
+            <div class="col-md-12 p-4 mb-4">
+                <h1>Responses - Items - Full Metadata Table</h1>
+            </div>
+        </div>
+        <div id="table-wrapper" class="dataTables_wrapper dt-bootstrap4">
+            <div class="row justify-content-md-center">
+                <div class="col-md-12 p-4">
+                    <table id="search_table" class="table table-striped table-bordered small" data_source="data/item_loc_fields.json" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th colspan="6" class="grouping1">About the Field</th>
+                                <th colspan="66" class="grouping2">Samples Field Values from all loc.gov Collections</th>
+                            </tr>
+
+                            <tr>
+                                <th>field name</th>
+                                <th># of collection samples using this field (of 428)</th>
+                                <th>% of collection samples using this field</th>
+                                <th>data types found in samples</th>
+                                <th>is this field a list (multi-value)?</th>
+                                <th>max # of values found in sample record</th>
+                                {% for key in site.data.item_loc_fields[0] offset:6 %}
+                                <th>{{ key[0] }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>field name</th>
+                                <th># of collection samples using this field (of 428)</th>
+                                <th>% of collection samples using this field</th>
+                                <th>data types found in samples</th>
+                                <th>is this field a list (multi-value)?</th>
+                                <th>max # of values found in sample record</th>
+                                {% for key in site.data.item_loc_fields[0] offset:6 %}
+                                <th>{{ key[0] }}</th>
+                                {% endfor %}
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="col-md-12 p-4 mb-4">
+                <h2 id="notes">Notes</h2>
+                <ol>
+                    <li>For each field, one sample was randomly selected from the first 100 results in each collection query record.</li>
+                    <li>All fields are from the <code>item</code> or <code>resources</code> section of the JSON record.</li>
+                    <li>Nested fields appear as in <code>resources &gt; 0 &gt; url</code>, where <code>resources</code> is dictionary key containing a list, <code>0</code> is the first item in that list, and <code>url</code> is a dictionary key within the list items.</li>
+                    <li>In cases where a field is nested under a list (such as the example above, where <code>url</code> is a field belonging to list items inside the <code>resources</code> field), samples have been pulled from the first list item but not from subsequent list items. As a result, you will not see <code>resources &gt; 1 &gt; url</code> in the table.</li> 
+                    <li>When the lowest level of the target field is a list, the sample value is pulled randomly from all items in the list.</li>
+                    <li>Where a field is listed in the table twice, one will be a list and the other will not. This means that the field appeared as a list in some collections but as a non-list in others.</li>
+                    <li>Where a field is listed as appearing in 0% of collections, this means that in all samples where the field appears, the field was present but empty.</li>
+                </ol>
+            </div>
+        </div>
+    </div><!--close boostrap container-->
+
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>  
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="assets/full_datatable.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+
+</body>
+</html>

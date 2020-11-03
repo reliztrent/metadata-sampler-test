@@ -1,0 +1,92 @@
+---
+title: Responses - Search Results
+keywords: responses, data, json, api 
+last_updated: Oct 31, 2020
+tags: 
+summary: "A search result is one of the JSON responses that the loc.gov API returns. This is the type of response you get when you run a search query. Each response includes one page of your search query results. The page below provides additional details about the metadata fields found in the results section of this type of record."
+sidebar: apidocs_sidebar
+permalink: search-results.html
+folder: apidocs
+datatable: true
+---
+    <style>
+
+        /*
+         * Datatable
+         */
+
+        .highlight {
+            background-color: rgba(161, 198, 230,0.25) !important;
+        }
+
+        tr:hover {
+            background-color: rgba(161, 198, 230, 0.4) !important;
+        }
+
+        .d-none {
+            display:none;
+        }
+        table {
+            word-wrap: break-word;
+        }
+
+
+    </style>
+    <h2 id="search-results-sampled" class="clickable-header">Search Result record</h2>
+    <p>As you saw on the <a href="responses">Responses</a> page, a search result JSON record is one of the main types of records that the loc.gov API returns. You will get this type of response whenever you run search query request. The list of results from your search are in the <code>results</code> section of the JSON record. The <code>results</code> section contains an abbreviated list of metadata about each item. Fuller metadata can be found in the item and resource records.</p>
+    <h2 id="search-results-core" class="clickable-header">Core fields</h2>
+    <p>The loc.gov site has many hundreds of collections, and metadata fields vary from collection to collection. You can find a list of core metadata fields with definitions on the <a href="responses">Responses</a> page.</p>
+
+    <h2 id="search-results-sampled" class="clickable-header">Detailed field list</h2>
+    <p>Below is a table summarizing fields found across all of the collections in loc.gov. This list is based on sample of items fetched from each collection in loc.gov. Additional information about the data can be found in the <a href="#notes">notes</a> below. This list approximates the full list of data fields found in loc.gov search result records. To view a sample record from a specific collection, use the drop down menu.</p>
+
+    <p><a href="search-table.html" class="btn btn-primary">View full table with all collection sample items</a></p>
+
+    <p><strong>Add sample values from a collection</strong></p>
+    <p>
+        <select id="select-collection" class="form-control">
+            <option class="toggle-vis" data-column="none">Select a collection</option>
+        {% for key in site.data.loc_fields[0] offset:6 %}
+            <option class="toggle-vis" data-column="{{ forloop.index | plus: 5 }}">{{ key[0] }}</option>
+        {% endfor %}
+        </select>
+    </p>
+
+    <div id="table-wrapper" class="dataTables_wrapper dt-bootstrap4">
+        <table id="search_table" class="table table-striped table-bordered small wrap" data_source="data/loc_fields.json" style="width:100%">
+            <thead>
+                <tr>
+                    <th>field name</th>
+                    <th># of collections</th>
+                    <th>% of collections</th>
+                    <th>data types found in samples</th>
+                    <th>list</th>
+                    <th>max # of values found in samples</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>field name</th>
+                    <th># of collections</th>
+                    <th>% of collections</th>
+                    <th>data types found in samples</th>
+                    <th>list</th>
+                    <th>max # of values found in samples</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    
+    <h2 id="notes" class="clickable-header top-level-header">Notes</h2>
+    <ol>
+        <li>For each field, one sample was randomly selected from the first 100 results in each collection query record.</li>
+        <li>All fields are from the <code>results</code> section of the JSON record.</li>
+        <li>Nested fields appear as in <code>resources &gt; 0 &gt; url</code>, where <code>resources</code> is dictionary key containing a list, <code>0</code> is the first item in that list, and <code>url</code> is a dictionary key within the list items.</li>
+        <li>In cases where a field is nested under a list (such as the example above, where <code>url</code> is a field belonging to list items inside the <code>resources</code> field), samples have been pulled from the first list item but not from subsequent list items. As a result, you will not see <code>resources &gt; 1 &gt; url</code> in the table.</li> 
+        <li>When the lowest level of the target field is a list, the sample value is pulled randomly from all items in the list.</li>
+        <li>Where a field is listed in the table twice, one will be a list and the other will not. This means that the field appeared as a list in some collections but as a non-list in others.</li>
+        <li>Where a field is listed as appearing in 0% of collections, this means that in all samples where the field appears, the field was present but empty.</li>
+    </ol>
+
+<!--local scripts-->
+<script src="assets/customize_datatable.js"></script>
